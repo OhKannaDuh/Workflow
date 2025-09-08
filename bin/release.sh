@@ -91,7 +91,6 @@ EOF
     git add "$PROJECT/$PROJECT.csproj"
     git commit -m "Version: $TAG"
 fi
-fi
 
 if ! grep -q "# $TAG" CHANGELOG.md; then
   echo "Error: CHANGELOG.md does not contain entry for $TAG."
