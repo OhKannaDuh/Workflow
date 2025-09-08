@@ -82,12 +82,15 @@ if [ -z "$CS_VERSION" ]; then
 fi
 
 if [ "$CS_VERSION" != "$TAG" ]; then
-    echo "csproj version ($CS_VERSION) does not match tag ($TAG). Updating version..."
-    dotnet tool restore
-    dotnet version --set "$TAG" "$CSPROJ"
-    git add "$CSPROJ"
-    git commit -m "chore: bump version to $TAG"
-    git push origin "$BRANCH"
+    echo "csproj version ($CS_VERSION) does not match tag ($TAG). Updating..."
+    xmllint --shell "$PROJECT/$PROJECT.csproj" <<EOF > /dev/null
+cd //Project/PropertyGroup/Version
+set $TAG
+save
+EOF
+    git add "$PROJECT/$PROJECT.csproj"
+    git commit -m "Version: $TAG"
+fi
 fi
 
 if ! grep -q "# $TAG" CHANGELOG.md; then
