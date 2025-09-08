@@ -8,20 +8,23 @@ concurrency:
     group: plugins-manifest
     cancel-in-progress: false
 
+env:
+    PLUGINS_REPO: OhKannaDuh/plugins
+    TARGET_BRANCH: master
+
 jobs:
     update-manifest:
         runs-on: ubuntu-latest
         permissions:
             contents: read
-        env:
-            PLUGINS_REPO: OhKannaDuh/plugins
+
         steps:
             - name: Derive release info
               run: |
                   echo "TAG=${{ github.event.release.tag_name }}" >> $GITHUB_ENV
                   echo "IS_PRERELEASE=${{ github.event.release.prerelease }}" >> $GITHUB_ENV
 
-            - name: Checkout current repo (for context only)
+            - name: Checkout current repo (context only)
               uses: actions/checkout@v4
               with:
                   fetch-depth: 0
@@ -31,31 +34,39 @@ jobs:
               with:
                   node-version: "lts/*"
 
-            - name: Clone plugins repo
-              run: |
-                  git clone "https://x-access-token:${{ secrets.PLUGINS_REPO_PAT }}@github.com/${PLUGINS_REPO}.git" plugins
+            - name: Checkout plugins repo
+              uses: actions/checkout@v4
+              with:
+                  repository: ${{ env.PLUGINS_REPO }}
+                  token: ${{ secrets.PLUGINS_PUSH_TOKEN }}
+                  path: plugins
+                  fetch-depth: 0
+                  ref: ${{ env.TARGET_BRANCH }}
 
             - name: Install and generate manifest
               working-directory: plugins/manifest-generator
               run: |
                   npm ci
-                  # If your generator needs the tag or prerelease flag, expose them as env vars
                   TAG="$TAG" IS_PRERELEASE="$IS_PRERELEASE" npx tsx src/index.ts | tee ../../manifest_output.txt
 
             - name: Commit manifest changes (if any)
               working-directory: plugins
               run: |
+                  # Make sure git is happy inside Actions workspace
+                  git config --global --add safe.directory "$(pwd)"
                   git config user.name "github-actions"
                   git config user.email "github-actions@github.com"
+
                   git add manifest.json
 
                   if ! git diff --cached --quiet; then
+                    # Try to read a suggested message from generator output; otherwise fall back
                     COMMIT_MSG=$(awk '/^Suggested commit message:/{getline; print; exit}' ../manifest_output.txt)
-                    if [ -z "$COMMIT_MSG" ]; then
-                      COMMIT_MSG="Update Manifest for ${TAG}"
-                    fi
+                    [ -z "$COMMIT_MSG" ] && COMMIT_MSG="Update Manifest for ${TAG}"
+
                     git commit -m "$COMMIT_MSG"
-                    git push origin HEAD:master
+                    # Remote is already set with PAT by checkout@v4
+                    git push origin HEAD:${TARGET_BRANCH}
                   else
                     echo "No manifest changes to commit."
                   fi
