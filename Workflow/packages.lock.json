@@ -14,10 +14,20 @@
         "resolved": "1.2.25",
         "contentHash": "xCXiw7BCxHJ8pF6wPepRUddlh2dlQlbr81gXA72hdk4FLHkKXas7EH/n+fk5UCA/YfMqG1Z6XaPiUjDbUNBUzg=="
       },
+      "FFXIVOcelot": {
+        "type": "Direct",
+        "requested": "[1.2.0, )",
+        "resolved": "1.2.0",
+        "contentHash": "Vlu+qCwiN0+ZQ/26hk54fBClGlMEGSwBSCY5tsBBJRo4OmlI+KawbKaKbnlkGPyAUh6VVKn0e7AYrZmansXR5Q==",
+        "dependencies": {
+          "Ecommons": "3.0.0.17-api13",
+          "Pictomancy": "0.0.1"
+        }
+      },
       "ECommons": {
         "type": "Transitive",
-        "resolved": "3.0.1.12",
-        "contentHash": "SjPNfV7QO75QSNsjMr0/fVcnrOD4rWb6HMPDaWCUvb4y59o9OOHHKPZwT6ah5Uul7JrUSlRhZRe40erOqI/QhA=="
+        "resolved": "3.0.0.17-api13",
+        "contentHash": "r7MblEmo2zOksX2qiapL7eFhGYnXZOvu4QOb6zd8LHApjde3c+iF/JVowqUWxaAz4yS+M/bvrppsfJNIdRLm2A=="
       },
       "Microsoft.NETCore.Platforms": {
         "type": "Transitive",
@@ -96,13 +106,6 @@
         "dependencies": {
           "NETStandard.Library": "1.6.1",
           "SharpDX": "4.2.0"
-        }
-      },
-      "FFXIVOcelot": {
-        "type": "Project",
-        "dependencies": {
-          "Ecommons": "[3.0.1.12, )",
-          "Pictomancy": "[0.0.1, )"
         }
       }
     }

@@ -9,7 +9,9 @@ permissions:
 
 jobs:
     setup:
-        if: github.repository != 'OhKannaDuh/PluginTemplate' && !contains(github.event.head_commit.message, '[skip init]')
+        if: ${{ github.repository != 'OhKannaDuh/PluginTemplate'
+            && !contains(github.event.head_commit.message, '[skip init]')
+            && hashFiles('.initialized') == '' }}
         runs-on: ubuntu-latest
 
         steps:
@@ -17,13 +19,6 @@ jobs:
               uses: actions/checkout@v4
               with:
                   fetch-depth: 0
-
-            - name: Check if already initialized
-              run: |
-                  if [ -f ".initialized" ]; then
-                    echo "Project already initialized. Skipping."
-                    exit 0
-                  fi
 
             - name: Set naming variables
               run: |
