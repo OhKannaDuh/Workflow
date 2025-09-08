@@ -1,6 +1,6 @@
 .vs/
-PluginTemplate/obj/
-PluginTemplate/bin/
+Workflow/obj/
+Workflow/bin/
 *.user
-PluginTemplate/.env
+Workflow/.env
 node_modules/

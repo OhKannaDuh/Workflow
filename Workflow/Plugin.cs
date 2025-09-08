@@ -3,12 +3,12 @@ using ECommons;
 using Ocelot;
 using Ocelot.Chain;
 
-namespace PluginTemplate;
+namespace Workflow;
 
 public sealed class Plugin : OcelotPlugin
 {
     public override string Name {
-        get => "PluginTemplate";
+        get => "Workflow";
     }
 
     public Config Config { get; }
@@ -18,7 +18,7 @@ public sealed class Plugin : OcelotPlugin
     }
 
     public static ChainQueue Chain {
-        get => ChainManager.Get("PluginTemplate.Chain");
+        get => ChainManager.Get("Workflow.Chain");
     }
 
     public Plugin(IDalamudPluginInterface plugin)
@@ -41,7 +41,7 @@ public sealed class Plugin : OcelotPlugin
 
     protected override void OnCoreLoaded()
     {
-        Commands.InitializeMainCommand("/plugintemplate");
-        Commands.InitializeConfigCommand("/plugintemplatecfg", aliases: ["/plugintemplatec"]);
+        Commands.InitializeMainCommand("/workflow");
+        Commands.InitializeConfigCommand("/workflowcfg", aliases: ["/workflowc"]);
     }
 }

@@ -2,7 +2,7 @@
 using ECommons.DalamudServices;
 using Ocelot;
 
-namespace PluginTemplate;
+namespace Workflow;
 
 [Serializable]
 public class Config : OcelotConfig

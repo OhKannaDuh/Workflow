@@ -1,6 +1,6 @@
 using Ocelot.Modules;
 
-namespace PluginTemplate.Modules.{{name}};
+namespace Workflow.Modules.{{name}};
 
 public class {{name}}Config : ModuleConfig
 {

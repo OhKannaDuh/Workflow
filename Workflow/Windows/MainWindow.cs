@@ -1,6 +1,6 @@
 ﻿using Ocelot.Windows;
 
-namespace PluginTemplate.Windows;
+namespace Workflow.Windows;
 
 [OcelotMainWindow]
 public class MainWindow(Plugin plugin, Config config) : OcelotMainWindow(plugin, config)
