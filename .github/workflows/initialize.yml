@@ -11,6 +11,7 @@ jobs:
     setup:
         if: ${{ github.repository != 'OhKannaDuh/PluginTemplate'
             && !contains(github.event.head_commit.message, '[skip init]')
+            && always()
             && hashFiles('.initialized') == '' }}
         runs-on: ubuntu-latest
 
