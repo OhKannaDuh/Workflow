@@ -1,0 +1,7 @@
+using Ocelot.Modules;
+
+namespace PluginTemplate.Modules.{{name}};
+
+public class {{name}}Config : ModuleConfig
+{
+}
