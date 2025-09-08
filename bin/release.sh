@@ -82,8 +82,12 @@ if [ -z "$CS_VERSION" ]; then
 fi
 
 if [ "$CS_VERSION" != "$TAG" ]; then
-  echo "Error: csproj version ($CS_VERSION) does not match tag ($TAG)."
-  exit 1
+    echo "csproj version ($CS_VERSION) does not match tag ($TAG). Updating version..."
+    dotnet tool restore
+    dotnet version --set "$TAG" "$CSPROJ"
+    git add "$CSPROJ"
+    git commit -m "chore: bump version to $TAG"
+    git push origin "$BRANCH"
 fi
 
 if ! grep -q "# $TAG" CHANGELOG.md; then
